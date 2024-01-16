@@ -1,0 +1,93 @@
+namespace RayTracing;
+
+public struct Vector3
+{
+    public double X { get; private set; }
+    public double Y { get; private set; }
+    public double Z { get; private set; }
+    
+    public double Length => Math.Sqrt(X * X + Y * Y + Z * Z);
+    public double LengthSqr => X * X + Y * Y + Z * Z;
+
+    public Vector3(double x = 0, double y = 0, double z = 0)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+    }
+
+    public static Vector3 operator+(Vector3 lo, Vector3 ro)
+    {
+        return new Vector3(lo.X + ro.X, lo.Y + ro.Y, lo.Z + ro.Z);
+    }
+    public static Vector3 operator-(Vector3 lo, Vector3 ro)
+    {
+        return new Vector3(lo.X - ro.X, lo.Y - ro.Y, lo.Z - ro.Z);
+    }
+    public static Vector3 operator-(Vector3 ro)
+    {
+        return new Vector3(-ro.X, -ro.Y, -ro.Z);
+    }
+    public static Vector3 operator*(Vector3 lo, Vector3 ro)
+    {
+        return new Vector3(lo.X * ro.X, lo.Y * ro.Y, lo.Z * ro.Z);
+    }
+    public static Vector3 operator*(Vector3 lo, double scalar)
+    {
+        return new Vector3(lo.X * scalar, lo.Y * scalar, lo.Z * scalar);
+    }
+    public static Vector3 operator*(double scalar, Vector3 lo)
+    {
+        return new Vector3(lo.X * scalar, lo.Y * scalar, lo.Z * scalar);
+    }
+    public static bool operator==(Vector3 lo, Vector3 ro)
+    {
+        return Math.Abs(lo.X - ro.X) < double.Epsilon &&
+               Math.Abs(lo.Y - ro.Y) < double.Epsilon &&
+               Math.Abs(lo.Z - ro.Z) < double.Epsilon;
+    }
+    public static bool operator!=(Vector3 lo, Vector3 ro)
+    {
+        return !(lo == ro);
+    }
+    public double Dot(Vector3 ro)
+    {
+        return X * ro.X + Y * ro.Y + Z * ro.Z;
+    }
+    public Vector3 Cross(Vector3 ro)
+    {
+        return new Vector3(
+            Y * ro.Z - ro.Y * Z,
+            Z * ro.X - ro.Z * X,
+            X * ro.Y - ro.X * Y
+        );
+    }
+    public Vector3 Normalize()
+    {
+        var len = Length;
+        X /= len;
+        Y /= len;
+        Z /= len;
+        return this;
+    }
+    public Vector3 Normalized => new Vector3(X, Y, Z).Normalize();
+
+    public override bool Equals(object? obj)
+    {
+        if(obj is null || obj is not Vector3)
+            return false;
+        return this == (Vector3)obj;
+    }
+
+    public override int GetHashCode()
+    {
+        return System.HashCode.Combine(X, Y, Z);
+    }
+
+    public override string ToString()
+    {
+        return $"({X}, {Y}, {Z})";
+    }
+
+    public static Vector3 Zero { get; } = new Vector3();
+}
