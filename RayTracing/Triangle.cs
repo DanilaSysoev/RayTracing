@@ -15,21 +15,35 @@ class Triangle : ISurface
 
     public Vector3? Intersection(Ray ray)
     {
-        var ab = B - A;
-        var ac = B - A;
+        var e1 = B - A;
+        var e2 = B - A;
 
-        var cx = ab.Y * ac.Z - ac.Y * ab.Z;
-        var cy = ab.Z * ac.X - ac.Z * ab.X;
-        var cz = ab.X * ac.Y - ac.X * ab.Y;
-        var c = ac.X * ab.Y * A.Z + ac.Y * ab.Z * A.X + ac.Z * ab.X * A.Y -
-                ab.X * ac.Y * A.Z - ab.Y * ac.Z * A.X - ab.Z * ac.X * A.Y;
-                
-        // TO DO
+        var pvec = ray.Direction.Cross(e2);
+        var det = e1.Dot(pvec);
+
+        if(Math.Abs(det) < double.Epsilon)
+            return null;
+        
+        var inv_det = 1 / det;
+        var tvec = ray.Start - A;
+        var u = tvec.Dot(pvec) * inv_det;
+        if(u < 0 || u > 1)
+            return null;
+        
+        var qvec = tvec.Cross(e1);
+        var v = ray.Direction.Dot(qvec) * inv_det;
+        if(v < 0 || u + v > 1)
+            return null;
+        
+        return ray.Start + ray.Direction * (e2.Dot(qvec) * inv_det);
     }
 
     public Vector3? NormalInIntersection(Ray ray)
     {
-        throw new NotImplementedException();
+        var point = Intersection(ray);
+        if(point is null)
+            return null;
+        return (A - B).Cross(A - C).Normalize();
     }
 
     public void Translate(Vector3 on)
