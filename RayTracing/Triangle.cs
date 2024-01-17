@@ -1,6 +1,6 @@
 namespace RayTracing;
 
-class Triangle : ISurface
+public class Triangle : ISurface
 {
     public Vector3 A { get; private set; }
     public Vector3 B { get; private set; }
@@ -16,7 +16,7 @@ class Triangle : ISurface
     public Vector3? Intersection(Ray ray)
     {
         var e1 = B - A;
-        var e2 = B - A;
+        var e2 = C - A;
 
         var pvec = ray.Direction.Cross(e2);
         var det = e1.Dot(pvec);
