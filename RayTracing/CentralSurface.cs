@@ -13,7 +13,7 @@ public abstract class CentralSurface : ISurface
         Position = position;
     }
 
-    public void Translate(Vector3 on)
+    public virtual void Translate(Vector3 on)
     {
         Position += on;
     }
