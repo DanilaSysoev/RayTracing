@@ -31,84 +31,84 @@ public class Box : CentralSurface
     private void CreateTop()
     {
         triangles[0] = new Triangle(
-            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2),
+            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2,  SizeY / 2, SizeZ / 2),
-            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2)
+            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2)
         );
         triangles[1] = new Triangle(
-            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2),
+            new Vector3(SizeX / 2,  SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2,  SizeY / 2, -SizeZ / 2),
-            new Vector3(SizeX / 2,  SizeY / 2, SizeZ / 2)
+            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2)
         );
     }
 
     private void CreateLeft()
     {
         triangles[2] = new Triangle(
-            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2),
             new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2),
-            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2)
+            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2)
         );
         triangles[3] = new Triangle(
-            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2),
             new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2),
-            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2)
+            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2)
         );
     }
 
     private void CreateRight()
     {
         triangles[4] = new Triangle(
-            new Vector3(SizeX / 2, SizeY / 2, SizeZ / 2),
+            new Vector3(SizeX / 2, -SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2, SizeY / 2, -SizeZ / 2),
-            new Vector3(SizeX / 2, -SizeY / 2, SizeZ / 2)
+            new Vector3(SizeX / 2, SizeY / 2, SizeZ / 2)
         );
         triangles[5] = new Triangle(
-            new Vector3(SizeX / 2, SizeY / 2, -SizeZ / 2),
+            new Vector3(SizeX / 2, -SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2, -SizeY / 2, -SizeZ / 2),
-            new Vector3(SizeX / 2, -SizeY / 2, SizeZ / 2)
+            new Vector3(SizeX / 2, SizeY / 2, -SizeZ / 2)
         );
     }
 
     private void CreateBottom()
     {
         triangles[6] = new Triangle(
-            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2),
             new Vector3(SizeX / 2,  -SizeY / 2, SizeZ / 2),
-            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2)
+            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2)
         );
         triangles[7] = new Triangle(
-            new Vector3(SizeX / 2,  -SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2),
             new Vector3(SizeX / 2,  -SizeY / 2, -SizeZ / 2),
-            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2)
+            new Vector3(SizeX / 2,  -SizeY / 2, SizeZ / 2)
         );
     }
 
     private void CreateFront()
     {
         triangles[8] = new Triangle(
-            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2),
+            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2),
             new Vector3(SizeX / 2,  SizeY / 2, -SizeZ / 2),
-            new Vector3(-SizeX / 2, SizeY / 2, -SizeZ / 2)
+            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2)
         );
         triangles[9] = new Triangle(
-            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2),
+            new Vector3(SizeX / 2, SizeY / 2, -SizeZ / 2),
             new Vector3(SizeX / 2, -SizeY / 2, -SizeZ / 2),
-            new Vector3(SizeX / 2, SizeY / 2, -SizeZ / 2)
+            new Vector3(-SizeX / 2, -SizeY / 2, -SizeZ / 2)
         );
     }
 
     private void CreateBack()
     {
         triangles[10] = new Triangle(
-            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2,  SizeY / 2, SizeZ / 2),
-            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2)
+            new Vector3(-SizeX / 2, SizeY / 2, SizeZ / 2)
         );
         triangles[11] = new Triangle(
-            new Vector3(SizeX / 2, SizeY / 2, SizeZ / 2),
+            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2),
             new Vector3(SizeX / 2, -SizeY / 2, SizeZ / 2),
-            new Vector3(-SizeX / 2, -SizeY / 2, SizeZ / 2)
+            new Vector3(SizeX / 2, SizeY / 2, SizeZ / 2)
         );
     }
 
