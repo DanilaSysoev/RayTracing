@@ -31,4 +31,9 @@ public abstract class CentralSurface : ISurface
 
     public abstract Vector3? NormalInIntersection(Ray ray);
     public abstract Vector3? Intersection(Ray ray);
+
+    public IntersectInfo Intersect(Ray ray)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -21,7 +21,7 @@ public class BoundingBox
         _min.Z = Math.Min(Min.Z, vertex.Z);
     }
 
-    private void Reset()
+    public void Reset()
     {
         _max = new Vector3(double.MinValue, double.MinValue, double.MinValue);
         _min = new Vector3(double.MaxValue, double.MaxValue, double.MaxValue);

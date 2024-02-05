@@ -12,11 +12,11 @@ public class Ray
         Direction = direction.Normalized;
         InvDirection = new Vector3 {
             X = direction.X != 0 ? 1 / direction.X :
-                                   direction.X * double.PositiveInfinity,
+                                   double.PositiveInfinity,
             Y = direction.Y != 0 ? 1 / direction.Y :
-                                   direction.Y * double.PositiveInfinity,
+                                   double.PositiveInfinity,
             Z = direction.Z != 0 ? 1 / direction.Z :
-                                   direction.Z * double.PositiveInfinity,
+                                   double.PositiveInfinity,
         };
     }
 

@@ -125,4 +125,12 @@ public class Triangle : ISurface
         
         return Tuple.Create(u, v);
     }
+
+    public IntersectInfo Intersect(Ray ray)
+    {
+        var point = Intersection(ray);
+        if(point is null)
+            return new IntersectInfo();
+        return new IntersectInfo { Point = point };
+    }
 }
