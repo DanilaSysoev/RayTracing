@@ -84,5 +84,3 @@ public class VectorTransformTests
         Assert.That(v, Is.EqualTo(new Vector3(ex, ey, ez)));
     }
 }
-
-//0.866025403785

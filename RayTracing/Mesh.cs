@@ -1,6 +1,13 @@
 namespace RayTracing;
 
-class Mesh : ISurface
+struct ItemSet<T>
+{
+    public T A { get; set; }
+    public T B { get; set; }
+    public T C { get; set; }
+}
+
+public class Mesh : ISurface
 {
     public Vector3? Intersection(Ray ray)
     {
@@ -27,9 +34,24 @@ class Mesh : ISurface
         throw new NotImplementedException();
     }
 
+    private Vector3[] vertexStorage;
+    private Vector3[] normalStorage;
+    private TextureUV[] texturUvsStorage;
+    private Face[] faces;
+
     private Triangle[] triangles;
-    private Mesh(int trianglesCount)
+    private ItemSet<Vector3>[] normals;
+    private ItemSet<TextureUV>[] textureUvs;
+
+    private Mesh(int vertexCount, int normalsCount, int texesCount, int facesCount)
     {
-        triangles = new Triangle[trianglesCount];
+        vertexStorage = new Vector3[vertexCount];
+        normalStorage = new Vector3[normalsCount];
+        texturUvsStorage = new TextureUV[texesCount];
+
+        faces = new Face[facesCount];
+        triangles = new Triangle[facesCount];
+        normals = new ItemSet<Vector3>[facesCount];
+        textureUvs = new ItemSet<TextureUV>[facesCount];
     }
 }
