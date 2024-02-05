@@ -4,6 +4,22 @@ public class Sphere : CentralSurface
 {
     public double Radius { get; set; }
 
+    public Sphere()
+    {
+        Position = Vector3.Zero;
+        Radius = 1;
+    }
+    public Sphere(Vector3 position)
+    {
+        Position = position;
+        Radius = 1;
+    }
+    public Sphere(Vector3 position, double radius)
+    {
+        Position = position;
+        Radius = radius;
+    }
+
     public override Vector3? Intersection(Ray ray)
     {
         var tmp = ray.Start - Position;
@@ -25,5 +41,11 @@ public class Sphere : CentralSurface
         var intersect = Intersection(ray);
         return intersect is null ? null
                                  : (intersect.Value - Position).Normalize();
+    }
+
+    public override void Scale(Axis axis, double scaleFactor)
+    {
+        base.Scale(axis, scaleFactor);
+        Radius *= scaleFactor;
     }
 }

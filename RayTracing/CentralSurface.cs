@@ -18,6 +18,17 @@ public abstract class CentralSurface : ISurface
         Position += on;
     }
 
+    public void Rotate(Axis axis, double angleDegree)
+    {
+        var matrix = Transform.GetRotation(axis, angleDegree);
+        Position *= matrix;
+    }
+    
+    public virtual void Scale(Axis axis, double scaleFactor)
+    {
+        Position.Scale(axis, scaleFactor);
+    }
+
     public abstract Vector3? NormalInIntersection(Ray ray);
     public abstract Vector3? Intersection(Ray ray);
 }

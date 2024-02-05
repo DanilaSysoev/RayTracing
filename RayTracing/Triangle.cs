@@ -52,4 +52,77 @@ public class Triangle : ISurface
         B += on;
         C += on;
     }
+
+    public void Rotate(Axis axis, double angleDegree)
+    {
+        var matrix = Transform.GetRotation(axis, angleDegree);
+        A *= matrix;
+        B *= matrix;
+        C *= matrix;
+    }
+
+    public void Scale(Axis axis, double scaleFactor)
+    {
+        A.Scale(axis, scaleFactor);
+        B.Scale(axis, scaleFactor);
+        C.Scale(axis, scaleFactor);
+    }
+
+    public Vector3 Interpolate(Vector3 point,
+                               Vector3 aVal,
+                               Vector3 bVal,
+                               Vector3 cVal)
+    {
+        var uv = GetUV(point, aVal, bVal, cVal);
+            
+        var ab_d = bVal - aVal;
+        var ac_d = cVal - aVal;
+                
+        return aVal += (ab_d * uv.Item1) + (ac_d * uv.Item2);
+    }
+    public TextureUV Interpolate(Vector3 point,
+                                 TextureUV aVal,
+                                 TextureUV bVal,
+                                 TextureUV cVal)
+    {
+        var uv = GetUV(point, aVal, bVal, cVal);
+            
+        var ab_d = bVal - aVal;
+        var ac_d = cVal - aVal;
+                
+        return aVal += (ab_d * uv.Item1) + (ac_d * uv.Item2);
+    }
+
+    private Tuple<double, double> GetUV<T>(
+        Vector3 point, T aVal, T bVal, T cVal
+    )
+    {
+        var ab = B - A;
+        var ac = C - A;
+        var w = point - A;
+        
+        double u = 0;
+        double v = 0;
+
+        var det1 = ab.X * ac.Y - ac.X * ab.Y;
+        var det2 = ab.X * ac.Z - ac.X * ab.Z;
+        var det3 = ab.Y * ac.Z - ac.Y * ab.Z;
+        if (det1 != 0)
+        {
+            u = (w.X * ac.Y - w.Y * ac.X) / det1;
+            v = (ab.X * w.Y - ab.Y * w.X) / det1;
+        }
+        else if (det2 != 0)
+        {            
+            u = (w.X * ac.Z - w.Z * ac.X) / det2;
+            v = (ab.X * w.Z - ab.Z * w.X) / det2;
+        }
+        else
+        {
+            u = (w.Y * ac.Z - w.Z * ac.Y) / det3;
+            v = (ab.Y * w.Z - ab.Z * w.Y) / det3;
+        }
+        
+        return Tuple.Create(u, v);
+    }
 }

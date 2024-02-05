@@ -2,6 +2,8 @@ namespace RayTracing;
 
 public struct Vector3
 {
+    private const double EqualityEpsilon = 1e-6;
+
     public double X { get; private set; }
     public double Y { get; private set; }
     public double Z { get; private set; }
@@ -42,9 +44,9 @@ public struct Vector3
     }
     public static bool operator==(Vector3 lo, Vector3 ro)
     {
-        return Math.Abs(lo.X - ro.X) < double.Epsilon &&
-               Math.Abs(lo.Y - ro.Y) < double.Epsilon &&
-               Math.Abs(lo.Z - ro.Z) < double.Epsilon;
+        return Math.Abs(lo.X - ro.X) < EqualityEpsilon &&
+               Math.Abs(lo.Y - ro.Y) < EqualityEpsilon &&
+               Math.Abs(lo.Z - ro.Z) < EqualityEpsilon;
     }
     public static bool operator!=(Vector3 lo, Vector3 ro)
     {
@@ -53,6 +55,10 @@ public struct Vector3
     public double Dot(Vector3 ro)
     {
         return X * ro.X + Y * ro.Y + Z * ro.Z;
+    }
+    public double Dot(double x, double y, double z)
+    {
+        return X * x + Y * y + Z * z;
     }
     public Vector3 Cross(Vector3 ro)
     {
@@ -87,6 +93,22 @@ public struct Vector3
     public override string ToString()
     {
         return $"({X}, {Y}, {Z})";
+    }
+
+    public void Scale(Axis axis, double scaleFactor)
+    {
+        switch(axis)
+        {
+            case Axis.X:
+                X *= scaleFactor;
+                break;
+            case Axis.Y:
+                Y *= scaleFactor;
+                break;
+            case Axis.Z:
+                Z *= scaleFactor;
+                break;
+        }
     }
 
     public static Vector3 Zero { get; } = new Vector3();

@@ -157,6 +157,13 @@ public class Box : CentralSurface
             triangle.Translate(on);
     }
 
+    public override void Scale(Axis axis, double scaleFactor)
+    {
+        base.Scale(axis, scaleFactor);
+        foreach(var triangle in triangles)
+            triangle.Scale(axis, scaleFactor);
+    }
+
     private Triangle[] triangles;
     private const int FacesCount = 6;
 }

@@ -19,5 +19,5 @@ public class ScreenTests
         };
 
         Assert.That(points, Is.EqualTo(expected));
-    }    
+    }
 }
