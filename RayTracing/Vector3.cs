@@ -1,6 +1,6 @@
 namespace RayTracing;
 
-public struct Vector3
+public struct Vector3 : ITransformable
 {
     private const double EqualityEpsilon = 1e-6;
 
@@ -109,6 +109,17 @@ public struct Vector3
                 Z *= scaleFactor;
                 break;
         }
+    }
+
+    public void Translate(Vector3 on)
+    {
+        this += on;
+    }
+
+    public void Rotate(Axis axis, double angleDegree)
+    {
+        var matrix = Transform.GetRotation(axis, angleDegree);
+        this *= matrix;
     }
 
     public static Vector3 Zero { get; } = new Vector3();
