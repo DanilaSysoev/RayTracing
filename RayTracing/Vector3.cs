@@ -4,9 +4,9 @@ public struct Vector3 : ITransformable
 {
     private const double EqualityEpsilon = 1e-6;
 
-    public double X { get; private set; }
-    public double Y { get; private set; }
-    public double Z { get; private set; }
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double Z { get; set; }
     
     public double Length => Math.Sqrt(X * X + Y * Y + Z * Z);
     public double LengthSqr => X * X + Y * Y + Z * Z;
