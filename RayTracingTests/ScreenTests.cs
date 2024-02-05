@@ -7,7 +7,7 @@ public class ScreenTests
     {
         Screen screen = new Screen { Height = 3
                                    , Width = 4
-                                   , LeftUp = Vector3.Zero
+                                   , LeftUp = new Vector3()
                                    , LeftDown = new Vector3(0, -6, 0)
                                    , RightUp = new Vector3(4, 0, 0)};
         var points = screen.Points;

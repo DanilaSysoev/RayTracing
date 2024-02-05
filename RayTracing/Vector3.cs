@@ -129,6 +129,4 @@ public struct Vector3 : ITransformable
         var matrix = Transform.GetRotation(axis, angleDegree);
         this *= matrix;
     }
-
-    public static Vector3 Zero { get; } = new Vector3();
 }

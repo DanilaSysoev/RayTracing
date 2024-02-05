@@ -2,6 +2,8 @@ namespace RayTracing;
 
 public class RayTests
 {
+#region Intersect
+
     [TestCase(-1, -1, -1)]
     [TestCase(-1, 0, -1)]
     [TestCase(-1, 1, -1)]
@@ -270,4 +272,125 @@ public class RayTests
 
         Assert.False(ray.Intersect(bb));
     }
+
+#endregion
+
+#region Reflect
+
+    [TestCase(0,  -1,    0,    0,     1,     0)]
+    [TestCase(0,   1,    0,    0,     -1,    0)]
+    [TestCase(.5,  -.5,  0,    .5,    .5,    0)]
+    [TestCase(0,   -.5,  .5,   0,     .5,    .5)]
+    [TestCase(.5,  -.5,  .5,   .5,    .5,    .5)]
+    [TestCase(.5,  .5,   0,    .5,    -.5,   0)]
+    [TestCase(0,   .5,   .5,   0,     -.5,   .5)]
+    [TestCase(.5,  .5,   .5,   .5,    -.5,   .5)]
+    [TestCase(.5,   0,   0,    .5,      0,   0)]
+    [TestCase(0,    0,   .5,   0,       0,   .5)]
+    [TestCase(.5,   0,   .5,   .5,      0,   .5)]
+    public void Reflect_UpNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                 double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(0, 1, 0));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+    [TestCase(0,  -1,    0,    0,     1,     0)]
+    [TestCase(0,   1,    0,    0,     -1,    0)]
+    [TestCase(.5,  -.5,  0,    .5,    .5,    0)]
+    [TestCase(0,   -.5,  .5,   0,     .5,    .5)]
+    [TestCase(.5,  -.5,  .5,   .5,    .5,    .5)]
+    [TestCase(.5,  .5,   0,    .5,    -.5,   0)]
+    [TestCase(0,   .5,   .5,   0,     -.5,   .5)]
+    [TestCase(.5,  .5,   .5,   .5,    -.5,   .5)]
+    [TestCase(.5,   0,   0,    .5,      0,   0)]
+    [TestCase(0,    0,   .5,   0,       0,   .5)]
+    [TestCase(.5,   0,   .5,   .5,      0,   .5)]
+    public void Reflect_DownNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                   double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(0, -1, 0));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+    [TestCase(-1,    0,     0,    1,     0,     0)]
+    [TestCase(1,     0,     0,    -1,    0,     0)]
+    [TestCase(-.5,   .5,    0,    .5,    .5,    0)]
+    [TestCase(-.5,   0,     .5,   .5,    0,     .5)]
+    [TestCase(-.5,   .5,    .5,   .5,    .5,    .5)]
+    [TestCase(.5,    .5,    0,    -.5,   .5,    0)]
+    [TestCase(.5,    0,     .5,   -.5,   0,     .5)]
+    [TestCase(.5,    .5,    .5,   -.5,   .5,    .5)]
+    [TestCase( 0,    .5,    0,      0,   .5,    0)]
+    [TestCase( 0,    0,     .5,     0,   0,     .5)]
+    [TestCase( 0,    .5,    .5,     0,   .5,    .5)]
+    public void Reflect_LeftNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                   double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(1, 0, 0));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+    [TestCase(-1,    0,     0,    1,     0,     0)]
+    [TestCase(1,     0,     0,    -1,    0,     0)]
+    [TestCase(-.5,   .5,    0,    .5,    .5,    0)]
+    [TestCase(-.5,   0,     .5,   .5,    0,     .5)]
+    [TestCase(-.5,   .5,    .5,   .5,    .5,    .5)]
+    [TestCase(.5,    .5,    0,    -.5,   .5,    0)]
+    [TestCase(.5,    0,     .5,   -.5,   0,     .5)]
+    [TestCase(.5,    .5,    .5,   -.5,   .5,    .5)]
+    [TestCase( 0,    .5,    0,      0,   .5,    0)]
+    [TestCase( 0,    0,     .5,     0,   0,     .5)]
+    [TestCase( 0,    .5,    .5,     0,   .5,    .5)]
+    public void Reflect_RightNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                   double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(-1, 0, 0));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+    [TestCase(0,     0,    -1,    0,     0 ,      1)]
+    [TestCase(0,     0,    1,     0,     0 ,     -1)]
+    [TestCase(.5,    0,    -.5,   .5,    0 ,     .5)]
+    [TestCase(0,     .5,   -.5,   0,     .5,     .5)]
+    [TestCase(.5,    .5,   -.5,   .5,    .5,     .5)]
+    [TestCase(.5,    0,    .5,    .5,    0 ,    -.5)]
+    [TestCase(0,     .5,   .5,    0,     .5,    -.5)]
+    [TestCase(.5,    .5,   .5,    .5,    .5,    -.5)]
+    [TestCase(.5,    0,     0,    .5,    0 ,      0)]
+    [TestCase(0,     .5,    0,    0,     .5,      0)]
+    [TestCase(.5,    .5,    0,    .5,    .5,      0)]
+    public void Reflect_FrontNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                   double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(0, 0, 1));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+    [TestCase(0,     0,    -1,    0,     0 ,      1)]
+    [TestCase(0,     0,    1,     0,     0 ,     -1)]
+    [TestCase(.5,    0,    -.5,   .5,    0 ,     .5)]
+    [TestCase(0,     .5,   -.5,   0,     .5,     .5)]
+    [TestCase(.5,    .5,   -.5,   .5,    .5,     .5)]
+    [TestCase(.5,    0,    .5,    .5,    0 ,    -.5)]
+    [TestCase(0,     .5,   .5,    0,     .5,    -.5)]
+    [TestCase(.5,    .5,   .5,    .5,    .5,    -.5)]
+    [TestCase(.5,    0,     0,    .5,    0 ,      0)]
+    [TestCase(0,     .5,    0,    0,     .5,      0)]
+    [TestCase(.5,    .5,    0,    .5,    .5,      0)]
+    public void Reflect_BackNormal_ResultIsCorrect(double rdx, double rdy, double rdz,
+                                                   double exx, double exy, double exz)
+    {
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var reflection = ray.Reflect(new Vector3(), new Vector3(0, 0, -1));
+        Assert.That(reflection.Direction, Is.EqualTo(new Vector3(exx, exy, exz).Normalize()));
+    }
+
+#endregion
+
 }
