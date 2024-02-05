@@ -11,7 +11,7 @@ public class TriangleTests
         var ray = new Ray(new Vector3(0, 2, -5),
                           new Vector3(0, 0, 1));
 
-        Assert.IsNull(tr.Intersection(ray));
+        Assert.False(tr.Intersect(ray).Point.HasValue);
     }
     [Test]
     public void Intersection_IntersectSphere_ReturnNearestPoint()
@@ -24,7 +24,7 @@ public class TriangleTests
 
 
         Assert.That(
-            tr.Intersection(ray), Is.EqualTo(new Vector3(0, 0.5, 0))
+            tr.Intersect(ray).Point!.Value, Is.EqualTo(new Vector3(0, 0.5, 0))
         );
     }
 

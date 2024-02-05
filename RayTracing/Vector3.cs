@@ -76,6 +76,14 @@ public struct Vector3 : ITransformable
         Z /= len;
         return this;
     }
+    public double DistanceTo(Vector3 point)
+    {
+        return (point - this).Length;
+    }
+    public double SqrDistanceTo(Vector3 point)
+    {
+        return (point - this).LengthSqr;
+    }
     public Vector3 Normalized => new Vector3(X, Y, Z).Normalize();
 
     public override bool Equals(object? obj)

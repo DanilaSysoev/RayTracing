@@ -13,7 +13,7 @@ public class Triangle
         C = c;
     }
 
-    public Vector3? Intersection(Ray ray)
+    public IntersectInfo Intersect(Ray ray)
     {
         var e1 = B - A;
         var e2 = C - A;
@@ -22,20 +22,25 @@ public class Triangle
         var det = e1.Dot(pvec);
 
         if(Math.Abs(det) < double.Epsilon)
-            return null;
+            return new IntersectInfo();
         
         var inv_det = 1 / det;
         var tvec = ray.Start - A;
         var u = tvec.Dot(pvec) * inv_det;
         if(u < 0 || u > 1)
-            return null;
+            return new IntersectInfo();
         
         var qvec = tvec.Cross(e1);
         var v = ray.Direction.Dot(qvec) * inv_det;
-        if(v < 0 || u + v > 1)
-            return null;
+        var distance = e2.Dot(qvec) * inv_det;
+        if(v < 0 || u + v > 1 || distance < 0)
+            return new IntersectInfo();
         
-        return ray.Start + ray.Direction * (e2.Dot(qvec) * inv_det);
+        return new IntersectInfo {
+            Point = ray.Start + ray.Direction * distance,
+            Distance = distance,
+            Triangle = this
+        };
     }
 
     public void Translate(Vector3 on)
@@ -116,14 +121,5 @@ public class Triangle
         }
         
         return Tuple.Create(u, v);
-    }
-
-    public IntersectInfo Intersect(Ray ray)
-    {
-        var point = Intersection(ray);
-        if(point is null)
-            return new IntersectInfo();
-        return new IntersectInfo { Point = point,
-                                   Triangle = this };
     }
 }

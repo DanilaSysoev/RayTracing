@@ -15,7 +15,18 @@ public class Mesh
     {
         if(!ray.Intersect(BoundingBox))
             return new IntersectInfo();
-        return new IntersectInfo();
+        
+        IntersectInfo? result = null;
+        for(int i = 0; i < triangles.Count; ++i)
+        {
+            var intersect = triangles[i].Intersect(ray);
+            if(intersect.Point is not null &&
+               (result is null || intersect.Distance < result.Distance))
+            {
+                result = intersect;
+            }
+        }
+        return result ?? new IntersectInfo();
     }
 
     public void Rotate(Axis axis, double angleDegree)
