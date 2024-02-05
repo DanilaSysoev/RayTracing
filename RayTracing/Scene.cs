@@ -2,16 +2,15 @@ namespace RayTracing;
 
 public class Scene
 {
-    public IReadOnlyCollection<ISurface> Surfaces => _surfaces;
+    public IReadOnlyCollection<Mesh> Meshes => _meshes;
 
     public Scene()
     {
-        _surfaces = new List<ISurface>();
+        _meshes = new List<Mesh>();
     }
 
-    public void AddSurface(ISurface surface) => _surfaces.Add(surface);
-    public bool RemoveSurface(ISurface surface) => _surfaces.Remove(surface);   
+    public void AddSurface(Mesh surface) => _meshes.Add(surface);
+    public bool RemoveSurface(Mesh surface) => _meshes.Remove(surface);
 
-
-    private List<ISurface> _surfaces;
+    private List<Mesh> _meshes;
 }

@@ -1,6 +1,6 @@
 namespace RayTracing;
 
-public class Triangle : ISurface
+public class Triangle
 {
     public Vector3 A { get; private set; }
     public Vector3 B { get; private set; }
@@ -36,14 +36,6 @@ public class Triangle : ISurface
             return null;
         
         return ray.Start + ray.Direction * (e2.Dot(qvec) * inv_det);
-    }
-
-    public Vector3? NormalInIntersection(Ray ray)
-    {
-        var point = Intersection(ray);
-        if(point is null)
-            return null;
-        return (A - B).Cross(A - C).Normalize();
     }
 
     public void Translate(Vector3 on)
@@ -131,6 +123,7 @@ public class Triangle : ISurface
         var point = Intersection(ray);
         if(point is null)
             return new IntersectInfo();
-        return new IntersectInfo { Point = point };
+        return new IntersectInfo { Point = point,
+                                   Triangle = this };
     }
 }

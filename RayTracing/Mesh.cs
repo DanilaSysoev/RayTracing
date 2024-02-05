@@ -7,25 +7,15 @@ struct ItemSet<T>
     public T C { get; set; }
 }
 
-public class Mesh : ISurface
+public class Mesh
 {
     public BoundingBox BoundingBox { get; private set; }
 
-    public Vector3? Intersection(Ray ray)
-    {
-        if(!ray.Intersect(BoundingBox))
-            return null;
-    }
-
-    public Vector3? NormalInIntersection(Ray ray)
-    {        
-        if(!ray.Intersect(BoundingBox))
-            return null;
-    }
-
     public IntersectInfo Intersect(Ray ray)
     {
-        throw new NotImplementedException();
+        if(!ray.Intersect(BoundingBox))
+            return new IntersectInfo();
+        return new IntersectInfo();
     }
 
     public void Rotate(Axis axis, double angleDegree)
