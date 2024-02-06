@@ -24,10 +24,10 @@ public class Ray
 
     public Ray Reflect(Vector3 point,
                        Vector3 normal,
-                       double density_out = 1,
+                       double dencity_out = 1,
                        double dencity_in = 1)
     {
-        int sign = dencity_in  > density_out ? -1 : 1;
+        int sign = dencity_in > dencity_out ? -1 : 1;
         
         return new Ray(
             point + normal * (TransformOffset * sign),
@@ -36,21 +36,21 @@ public class Ray
     }
     public Ray? Refract(Vector3 point,
                        Vector3 normal,
-                       double density_out,
+                       double dencity_out,
                        double dencity_in)
     {
-        double etha = density_out / dencity_in;
+        double etha = dencity_in / dencity_out;
         double c_i = -Direction.Dot(normal);
 
         var coeff = 1 + etha * etha * (c_i * c_i - 1);
         if(coeff < 0)
             return null;
 
-        int sign = dencity_in  > density_out ? -1 : 1;
+        int sign = dencity_in > dencity_out ? -1 : 1;
         return new Ray(point - normal * (TransformOffset * sign),
                        etha * Direction +
-                       (etha * c_i - 
-                       Math.Sqrt(coeff)) * normal);
+                       (etha * c_i * sign - 
+                       Math.Sqrt(coeff)) * sign * normal);
     }
 
     public bool Intersect(BoundingBox boundingBox)
