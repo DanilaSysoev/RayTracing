@@ -2,6 +2,8 @@ namespace RayTracing;
 
 public class Ray
 {
+    public const double TransformOffset = .0001;
+
     public Vector3 Start { get; init; }
     public Vector3 Direction { get; init; }
     public Vector3 InvDirection { get; init; }
@@ -23,11 +25,11 @@ public class Ray
     public Ray Reflect(Vector3 point, Vector3 normal)
     {
         return new Ray(
-            point,
+            point + normal * TransformOffset,
             Direction - normal * 2 * normal.Dot(Direction)
         );
     }
-    public Ray Refract(Vector3 point,
+    public Ray? Refract(Vector3 point,
                        Vector3 normal,
                        double density_out,
                        double dencity_in)
@@ -35,10 +37,14 @@ public class Ray
         double etha = density_out / dencity_in;
         double c_i = -Direction.Dot(normal);
 
-        return new Ray(point,
+        var coeff = 1 + etha * etha * (c_i * c_i - 1);
+        if(coeff < 0)
+            return null;
+
+        return new Ray(point + normal * TransformOffset,
                        etha * Direction +
                        (etha * c_i - 
-                       Math.Sqrt(1 + etha * etha * (c_i * c_i - 1))) * normal);
+                       Math.Sqrt(coeff)) * normal);
     }
 
     public bool Intersect(BoundingBox boundingBox)

@@ -26,6 +26,6 @@ public class BoundingBox
         _max = new Vector3(double.MinValue, double.MinValue, double.MinValue);
         _min = new Vector3(double.MaxValue, double.MaxValue, double.MaxValue);
     }
-    private Vector3 _max;
-    private Vector3 _min;
+    private Vector3 _max = null!;
+    private Vector3 _min = null!;
 }

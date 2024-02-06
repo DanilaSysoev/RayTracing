@@ -393,4 +393,36 @@ public class RayTests
 
 #endregion
 
+#region Refract
+    [TestCase(0, -1, -6)]
+    [TestCase(0, -1, -4)]
+    [TestCase(0, -1, -2)]
+    [TestCase(0, -1, -1)]
+    [TestCase(0, -1, 0)]
+    [TestCase(0, -1, 1)]
+    [TestCase(0, -1, 2)]
+    [TestCase(0, -1, 4)]
+    [TestCase(0, -1, 6)]
+
+    [TestCase(-6 , -1, 0)]
+    [TestCase(-4 , -1, 0)]
+    [TestCase(-2 , -1, 0)]
+    [TestCase(-1 , -1, 0)]
+    [TestCase(0 , -1, 0)]
+    [TestCase(1  , -1, 0)]
+    [TestCase(2  , -1, 0)]
+    [TestCase(4  , -1, 0)]
+    [TestCase(6  , -1, 0)]
+    public void Refract_RefractSomeRay1to102_ResultIsCorrect(
+        double rdx, double rdy, double rdz
+    ) {
+        var dens = 1.01;
+        var ray = new Ray(new Vector3(), new Vector3(rdx, rdy, rdz));
+        var normal = new Vector3(0, 1, 0);
+        var refracted = ray.Refract(new Vector3(), normal, dens, 1);
+        Assert.That(Math.Abs(refracted!.Direction.Cross(normal).Length - ray.Direction.Cross(normal).Length * dens), Is.LessThan(.000001));
+    }
+
+#endregion
+
 }

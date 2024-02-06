@@ -2,9 +2,9 @@ namespace RayTracing;
 
 public class Screen
 {
-    public Vector3 LeftUp { get; set; }
-    public Vector3 RightUp { get; set; }
-    public Vector3 LeftDown { get; set; }
+    public Vector3 LeftUp { get; set; } = null!;
+    public Vector3 RightUp { get; set; } = null!;
+    public Vector3 LeftDown { get; set; } = null!;
 
     public int Width { get; set; }
     public int Height { get; set; }

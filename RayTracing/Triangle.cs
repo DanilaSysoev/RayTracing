@@ -2,15 +2,61 @@ namespace RayTracing;
 
 public class Triangle
 {
-    public Vector3 A { get; private set; }
-    public Vector3 B { get; private set; }
-    public Vector3 C { get; private set; }
+    public Vector3 A { get; set; }
+    public Vector3 B { get; set; }
+    public Vector3 C { get; set; }
+
+    public Vector3? Na { get; set; } = null;
+    public Vector3? Nb { get; set; } = null;
+    public Vector3? Nc { get; set; } = null;
+
+    public TextureUV? Ta { get; set; } = null;
+    public TextureUV? Tb { get; set; } = null;
+    public TextureUV? Tc { get; set; } = null;
 
     public Triangle(Vector3 a, Vector3 b, Vector3 c)
     {
         A = a;
         B = b;
         C = c;
+    }
+    public Triangle(Vector3 a, Vector3 b, Vector3 c,
+                    Vector3 na, Vector3 nb, Vector3 nc)
+    {
+        A = a;
+        B = b;
+        C = c;
+
+        Na = na;
+        Nb = nb;
+        Nc = nc;
+    }
+    public Triangle(Vector3 a, Vector3 b, Vector3 c,
+                    TextureUV ta, TextureUV tb, TextureUV tc)
+    {
+        A = a;
+        B = b;
+        C = c;
+
+        Ta = ta;
+        Tb = tb;
+        Tc = tc;
+    }
+    public Triangle(Vector3 a, Vector3 b, Vector3 c,
+                    Vector3 na, Vector3 nb, Vector3 nc,
+                    TextureUV ta, TextureUV tb, TextureUV tc)
+    {
+        A = a;
+        B = b;
+        C = c;
+
+        Na = na;
+        Nb = nb;
+        Nc = nc;
+
+        Ta = ta;
+        Tb = tb;
+        Tc = tc;
     }
 
     public IntersectInfo Intersect(Ray ray)
@@ -36,10 +82,14 @@ public class Triangle
         if(v < 0 || u + v > 1 || distance < 0)
             return new IntersectInfo();
         
+        var point = ray.Start + ray.Direction * distance;
+
         return new IntersectInfo {
-            Point = ray.Start + ray.Direction * distance,
+            Point = point,
             Distance = distance,
-            Triangle = this
+            Triangle = this,
+            Normal = GetNormal(point),
+            TextureUV = GetTextureUV(point)
         };
     }
 
@@ -63,6 +113,19 @@ public class Triangle
         A.Scale(axis, scaleFactor);
         B.Scale(axis, scaleFactor);
         C.Scale(axis, scaleFactor);
+    }
+
+    public Vector3? GetNormal(Vector3 point)
+    {
+        if(Na is null || Nb is null || Nc is null)
+            return null;
+        return Interpolate(point, Na, Nb, Nc);
+    }
+    public TextureUV? GetTextureUV(Vector3 point)
+    {
+        if(Ta is null || Tb is null || Tc is null)
+            return null;
+        return Interpolate(point, Ta, Tb, Tc);
     }
 
     public Vector3 Interpolate(Vector3 point,

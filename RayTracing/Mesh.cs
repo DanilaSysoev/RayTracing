@@ -1,11 +1,5 @@
 namespace RayTracing;
 
-struct ItemSet<T>
-{
-    public T A { get; set; }
-    public T B { get; set; }
-    public T C { get; set; }
-}
 
 public class Mesh
 {
@@ -77,36 +71,35 @@ public class Mesh
     public void AddFace(Face face)
     {
         faces.Add(face);
-        triangles.Add(new Triangle(vertexStorage[face.Va],
-                                   vertexStorage[face.Vb],
-                                   vertexStorage[face.Vc]));
-        if(face.Na is not null)
-        {
-            normals.Add(new ItemSet<Vector3>{
-                A = normalStorage[face.Na!.Value],
-                B = normalStorage[face.Nb!.Value],
-                C = normalStorage[face.Nc!.Value]
-            });
-        }
-        if(face.Ta is not null)
-        {
-            textureUvs.Add(new ItemSet<TextureUV>{
-                A = texturUvsStorage[face.Ta!.Value],
-                B = texturUvsStorage[face.Tb!.Value],
-                C = texturUvsStorage[face.Tc!.Value]
-            });
-        }
+        Triangle triangle = BuildTriangle(face);
+        triangles.Add(triangle);
     }
 
+    private Triangle BuildTriangle(Face face)
+    {
+        var triangle = new Triangle(vertexStorage[face.Va],
+                                    vertexStorage[face.Vb],
+                                    vertexStorage[face.Vc]);
+        if (face.Na is not null)
+        {
+            triangle.Na = normalStorage[face.Na!.Value];
+            triangle.Nb = normalStorage[face.Nb!.Value];
+            triangle.Nc = normalStorage[face.Nc!.Value];
+        }
+        if (face.Ta is not null)
+        {
+            triangle.Ta = texturUvsStorage[face.Ta!.Value];
+            triangle.Tb = texturUvsStorage[face.Tb!.Value];
+            triangle.Tc = texturUvsStorage[face.Tc!.Value];
+        }
+
+        return triangle;
+    }
 
     private void RebuildTriangles()
     {
         for(int i = 0; i < faces.Count; ++i)
-        {
-            triangles[i] = new Triangle(vertexStorage[faces[i].Va],
-                                        vertexStorage[faces[i].Vb],
-                                        vertexStorage[faces[i].Vc]);
-        }
+            triangles[i] = BuildTriangle(faces[i]);
     }
     private void RebuildNormals()
     {
@@ -114,11 +107,9 @@ public class Mesh
             return;
         for(int i = 0; i < faces.Count; ++i)
         {
-            normals[i] = new ItemSet<Vector3>{
-                A = normalStorage[faces[i].Na!.Value],
-                B = normalStorage[faces[i].Nb!.Value],
-                C = normalStorage[faces[i].Nc!.Value]
-            };
+            triangles[i].Na = normalStorage[faces[i].Na!.Value];
+            triangles[i].Nb = normalStorage[faces[i].Nb!.Value];
+            triangles[i].Nc = normalStorage[faces[i].Nc!.Value];
         }
     }
     private void RebuildTextureUVs()
@@ -127,11 +118,9 @@ public class Mesh
             return;
         for(int i = 0; i < faces.Count; ++i)
         {
-            textureUvs[i] = new ItemSet<TextureUV>{
-                A = texturUvsStorage[faces[i].Ta!.Value],
-                B = texturUvsStorage[faces[i].Tb!.Value],
-                C = texturUvsStorage[faces[i].Tc!.Value]
-            };
+            triangles[i].Ta = texturUvsStorage[faces[i].Ta!.Value];
+            triangles[i].Tb = texturUvsStorage[faces[i].Tb!.Value];
+            triangles[i].Tc = texturUvsStorage[faces[i].Tc!.Value];
         }        
     }
 
@@ -141,8 +130,6 @@ public class Mesh
     private List<Face> faces;
 
     private List<Triangle> triangles;
-    private List<ItemSet<Vector3>> normals;
-    private List<ItemSet<TextureUV>> textureUvs;
 
     public Mesh()
     {
@@ -152,8 +139,6 @@ public class Mesh
 
         faces = new List<Face>();
         triangles = new List<Triangle>();
-        normals = new List<ItemSet<Vector3>>();
-        textureUvs = new List<ItemSet<TextureUV>>();
 
         BoundingBox = new BoundingBox();
     }
