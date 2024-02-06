@@ -185,4 +185,9 @@ public class Triangle
         
         return Tuple.Create(u, v);
     }
+
+    public override string ToString()
+    {
+        return $"[{A}, {B}, {C}]";
+    }
 }

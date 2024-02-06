@@ -22,10 +22,15 @@ public class Ray
         };
     }
 
-    public Ray Reflect(Vector3 point, Vector3 normal)
+    public Ray Reflect(Vector3 point,
+                       Vector3 normal,
+                       double density_out = 1,
+                       double dencity_in = 1)
     {
+        int sign = dencity_in  > density_out ? -1 : 1;
+        
         return new Ray(
-            point + normal * TransformOffset,
+            point + normal * (TransformOffset * sign),
             Direction - normal * 2 * normal.Dot(Direction)
         );
     }
@@ -41,7 +46,8 @@ public class Ray
         if(coeff < 0)
             return null;
 
-        return new Ray(point + normal * TransformOffset,
+        int sign = dencity_in  > density_out ? -1 : 1;
+        return new Ray(point - normal * (TransformOffset * sign),
                        etha * Direction +
                        (etha * c_i - 
                        Math.Sqrt(coeff)) * normal);
