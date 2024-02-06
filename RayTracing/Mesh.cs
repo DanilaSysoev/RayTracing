@@ -74,6 +74,10 @@ public class Mesh
         Triangle triangle = BuildTriangle(face);
         triangles.Add(triangle);
     }
+    public Triangle GetTriangle(int index)
+    {
+        return triangles[index];
+    }
 
     private Triangle BuildTriangle(Face face)
     {
