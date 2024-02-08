@@ -24,10 +24,10 @@ public class Ray
 
     public Ray Reflect(Vector3 point,
                        Vector3 normal,
-                       double dencity_out = 1,
-                       double dencity_in = 1)
+                       double dencity_out_ray = 1,
+                       double dencity_in_ray = 1)
     {
-        int sign = dencity_in > dencity_out ? -1 : 1;
+        int sign = dencity_in_ray > dencity_out_ray ? -1 : 1;
         
         return new Ray(
             point + normal * (TransformOffset * sign),
@@ -36,17 +36,17 @@ public class Ray
     }
     public Ray? Refract(Vector3 point,
                        Vector3 normal,
-                       double dencity_out,
-                       double dencity_in)
+                       double dencity_out_ray,
+                       double dencity_in_ray)
     {
-        double etha = dencity_in / dencity_out;
+        double etha = dencity_in_ray / dencity_out_ray;
         double c_i = -Direction.Dot(normal);
 
         var coeff = 1 + etha * etha * (c_i * c_i - 1);
         if(coeff < 0)
             return null;
 
-        int sign = dencity_in > dencity_out ? -1 : 1;
+        int sign = dencity_in_ray > dencity_out_ray ? -1 : 1;
         return new Ray(point - normal * (TransformOffset * sign),
                        etha * Direction +
                        (etha * c_i * sign - 
@@ -67,8 +67,6 @@ public class Ray
 
         tmin  = Math.Max(tmin, Math.Min(lo1, hi1));
         tmax = Math.Min(tmax, Math.Max(lo1, hi1));
-
-
 
         double lo2 = InvDirection.Z*(boundingBox.Min.Z - Start.Z);
         double hi2 = InvDirection.Z*(boundingBox.Max.Z - Start.Z);

@@ -10,4 +10,26 @@ public class Model
         Mesh = mesh;
         Material = material;    
     }
+
+    public IntersectInfo Intersect(Ray ray)
+    {
+        var info = Mesh.Intersect(ray);
+        if(info.IsHit)
+            info.Model = this;
+        return info;
+    }
+
+    public static Model Build(ModelConfig config)
+    {
+        Material? material = null;
+        var mesh = MeshLoader.LoadMesh(config.MeshFile, out material);
+        material!.Color = new Vector3(config.Color[0], config.Color[1], config.Color[2]);
+        material.Texture = config.TextureFile == "" ? null : Texture.FromFile(config.TextureFile);
+        material.Reflectivity = config.Reflectivity;
+        material.Refractivity = config.Refractivity;
+        material.Transparency = config.Transparency;
+        material.Absorption = config.Absorption;
+
+        return new Model (mesh, material);
+    }
 }

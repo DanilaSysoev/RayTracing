@@ -33,5 +33,10 @@ public class Camera
         };
     }
 
+    public Ray GetRay(Vector3 point)
+    {
+        return new Ray(Position, point - Position);
+    }
+
     public const double ScreenDistance = 1.0;
 }

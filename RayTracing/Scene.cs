@@ -5,7 +5,7 @@ public class Scene
     public IReadOnlyCollection<Model> Models => _models;
     public IReadOnlyCollection<Light> Lights => _lights;
 
-    public Camera Camera { get; private set; } = new Camera();
+    public Camera Camera { get; set; } = new Camera();
     public Vector3 AmbientLight { get; set; } = new Vector3(0.3, 0.3, 0.3);
 
     public Scene()
@@ -19,7 +19,7 @@ public class Scene
         var intersectInfo = new IntersectInfo();
         foreach (var model in _models)
         {
-            var curInfo = model.Mesh.Intersect(ray);
+            var curInfo = model.Intersect(ray);
             if(curInfo.IsHit && (intersectInfo.IsMiss ||
                curInfo.Distance < intersectInfo.Distance))
             {

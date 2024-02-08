@@ -2,27 +2,35 @@ namespace RayTracing;
 
 public class RayTracingStrongShadowsModel : ILightModel
 {
-    public Vector3 CalculateColor(
+    public Vector3 CalculateLightness(
         Vector3 point,
         Vector3 normal,
         Material material,
         Scene scene
     ) {
-        Vector3 color = new Vector3();
+        point += normal * 0.00001f;
+        Vector3 lightness = scene.AmbientLight * material.Ambient;
         foreach (var light in scene.Lights)
         {
             if (PointIsIlluminated(point, light, scene))
             {
                 var rayToLight = new Ray(point, light.GetDirectionFrom(point));
                 var cameraDirection = (scene.Camera.Position - point).Normalize();
-                var reflDir = -rayToLight.Reflect(point, normal).Direction;
-                color += material.Diffuse * light.Diffuse *
-                         normal.Dot(rayToLight.Direction);
-                color += material.Specular * light.Specular *
-                         Math.Pow(cameraDirection.Dot(reflDir), material.Shininess);
+                var cosDiff = normal.Dot(rayToLight.Direction);
+                if(cosDiff > 0)
+                    lightness += material.Diffuse * light.Diffuse *
+                                 cosDiff;
+
+                if(material.Shininess >= 0) {
+                    var reflDir = -rayToLight.Reflect(point, normal).Direction;
+                    var cosSpec = cameraDirection.Dot(reflDir);
+                    if(cosSpec > 0)
+                        lightness += material.Specular * light.Specular *
+                                     Math.Pow(cosSpec, material.Shininess);
+                }
             }
         }
-        return new Vector3();
+        return lightness;
     }
 
     private bool PointIsIlluminated(Vector3 point, Light light, Scene scene)

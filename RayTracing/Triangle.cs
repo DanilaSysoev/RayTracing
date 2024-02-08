@@ -121,10 +121,10 @@ public class Triangle
             return null;
         return Interpolate(point, Na, Nb, Nc);
     }
-    public TextureUV? GetTextureUV(Vector3 point)
+    public TextureUV GetTextureUV(Vector3 point)
     {
         if(Ta is null || Tb is null || Tc is null)
-            return null;
+            return new TextureUV(0, 0);
         return Interpolate(point, Ta, Tb, Tc);
     }
 

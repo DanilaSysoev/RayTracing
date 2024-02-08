@@ -11,19 +11,21 @@ public class Material
     public double Shininess { get; set; } = 0.0;
     public double Reflectivity { get; set; } = 0.0;
     public double Refractivity { get; set; } = 0.0;
-    public double Transparency => 1.0 - Reflectivity;
-    public Vector3? Ambient { get; set; } = null;
+    public double Transparency { get; set; } = 0.0;
+    public double Absorption { get; set; } = 0.0;
+    public Vector3 Ambient { get; set; } = new Vector3(1, 1, 1);
     public Texture? Texture { get; set; } = null;
+    public Vector3? Color { get; set; } = new Vector3(1, 1, 1);
 
     public Vector3 GetColor(TextureUV uv) => GetColor(uv.U, uv.V);
     public Vector3 GetColor(double u, double v)
     {
         if (Texture is not null)
            return Texture.GetColor(u, v);
-        else if (Ambient is not null)
-           return Ambient;
+        else if (Color is not null)
+           return Color;
         throw new MaterialException(
-            $"Material {Name} has no texture or ambient color"
+            $"Material {Name} has no texture or color"
         );
     }
 }

@@ -59,6 +59,7 @@ public class Mesh
     public void AddVertex(Vector3 vertex)
     {
         vertexStorage.Add(vertex);
+        BoundingBox.Update(vertex);
     }
     public void AddNormal(Vector3 normal)
     {
