@@ -51,7 +51,7 @@ public class Tracer
                 //     Console.WriteLine();
                 Vector3 color = Trace(ray, 0, 1);
                 // if(color.X > 0) Console.WriteLine($"{x},{y} {color}");
-                image[x, y] = new Rgb24((byte)Math.Clamp(color.X, 0, 244),
+                image[x, y] = new Rgb24((byte)Math.Clamp(color.X, 0, 255),
                                         (byte)Math.Clamp(color.Y, 0, 255),
                                         (byte)Math.Clamp(color.Z, 0, 255));
             }
@@ -131,6 +131,6 @@ public class Tracer
                 iData.Model!.Material.GetColor(
                     iData.Triangle!.GetTextureUV(iData.Point!))
                  + reflColor * iData.Model.Material.Reflectivity
-                 + iData.Model.Material.Refractivity * refrColor;
+                 + iData.Model.Material.Transparency * refrColor;
     }
 }

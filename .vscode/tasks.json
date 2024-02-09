@@ -7,6 +7,8 @@
             "type": "process",
             "args": [
                 "build",
+                "-c",
+                "Release",
                 "${workspaceFolder}/RayTracingUI/RayTracingUI.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"

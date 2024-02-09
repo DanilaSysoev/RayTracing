@@ -34,12 +34,13 @@ public partial class MainWindow : Window
                               Height = 270 };
     }
     int RenderingSplitting = 20;
+    int RenderDepth = 5;
     private void RenderClick(object sender, RoutedEventArgs e)
     {
         var tracer = new Tracer { Scene = Scene,
                                   Width = GetValue(DefaultWidth, renderWidth),
                                   Height = GetValue(DefaultHeight, renderHeight),
-                                  Depth = 4,
+                                  Depth = RenderDepth,
                                   SplittingHeight = RenderingSplitting,
                                   SplittingWidth = RenderingSplitting };
         tracer.Render().SaveAsPng("output/render.png");
