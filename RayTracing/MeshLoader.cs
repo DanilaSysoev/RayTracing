@@ -23,7 +23,7 @@ class MeshLoader
                 case "vn":
                     mesh.AddNormal(new Vector3(double.Parse(split[1]),
                                                double.Parse(split[2]),
-                                               double.Parse(split[3])));
+                                               double.Parse(split[3])).Normalize());
                 break;
                 case "vt":
                     mesh.AddTextureUV(new TextureUV(double.Parse(split[1]),

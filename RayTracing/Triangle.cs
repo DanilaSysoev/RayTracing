@@ -2,6 +2,8 @@ namespace RayTracing;
 
 public class Triangle
 {
+    private const double Eps = 0.00001;
+
     public Vector3 A { get; set; }
     public Vector3 B { get; set; }
     public Vector3 C { get; set; }
@@ -67,7 +69,7 @@ public class Triangle
         var pvec = ray.Direction.Cross(e2);
         var det = e1.Dot(pvec);
 
-        if(Math.Abs(det) < double.Epsilon)
+        if(Math.Abs(det) < Eps)
             return new IntersectInfo();
         
         var inv_det = 1 / det;
@@ -138,7 +140,8 @@ public class Triangle
         var ab_d = bVal - aVal;
         var ac_d = cVal - aVal;
                 
-        return aVal += (ab_d * uv.Item1) + (ac_d * uv.Item2);
+        aVal += (ab_d * uv.Item1) + (ac_d * uv.Item2);
+        return aVal.Normalize();
     }
     public TextureUV Interpolate(Vector3 point,
                                  TextureUV aVal,
@@ -167,12 +170,12 @@ public class Triangle
         var det1 = ab.X * ac.Y - ac.X * ab.Y;
         var det2 = ab.X * ac.Z - ac.X * ab.Z;
         var det3 = ab.Y * ac.Z - ac.Y * ab.Z;
-        if (det1 != 0)
+        if (Math.Abs(det1) > Eps)
         {
             u = (w.X * ac.Y - w.Y * ac.X) / det1;
             v = (ab.X * w.Y - ab.Y * w.X) / det1;
         }
-        else if (det2 != 0)
+        else if (Math.Abs(det2) > Eps)
         {            
             u = (w.X * ac.Z - w.Z * ac.X) / det2;
             v = (ab.X * w.Z - ab.Z * w.X) / det2;
