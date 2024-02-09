@@ -33,15 +33,15 @@ public partial class MainWindow : Window
                               Width = 480,
                               Height = 270 };
     }
-
+    int RenderingSplitting = 20;
     private void RenderClick(object sender, RoutedEventArgs e)
     {
         var tracer = new Tracer { Scene = Scene,
                                   Width = GetValue(DefaultWidth, renderWidth),
                                   Height = GetValue(DefaultHeight, renderHeight),
                                   Depth = 4,
-                                  SplittingHeight = 20,
-                                  SplittingWidth = 40 };
+                                  SplittingHeight = RenderingSplitting,
+                                  SplittingWidth = RenderingSplitting };
         tracer.Render().SaveAsPng("output/render.png");
     }
 
@@ -62,7 +62,7 @@ public partial class MainWindow : Window
         if (int.TryParse(textBox.Text,
                          System.Globalization.NumberStyles.Number,
                          System.Globalization.NumberFormatInfo.InvariantInfo, 
-                         out val) && val > 0 && val < 10000)
+                         out val) && val > 0 && val < 10000 && val % RenderingSplitting == 0)
             return val;
         else
             textBox.Text = defaultValue.ToString();
