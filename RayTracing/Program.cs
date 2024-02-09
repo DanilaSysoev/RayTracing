@@ -14,13 +14,15 @@ mat.Refractivity = red_sphere.Material.Refractivity;
 mat.Transparency = red_sphere.Material.Transparency;
 red_sphere.Material = mat;
 
+var camera = new Camera { Position = new Vector3(0, .75, -6), 
+                          ViewPoint = new Vector3(0, 0, 10),
+                          Up = new Vector3(0, 16, .75).Normalized,
+                          Aspect = 2 / 1.0 };
+
 Scene scene = new Scene { AmbientLight = new Vector3(.6, .6, .6),
-                          Camera = new Camera { Position = new Vector3(0, .75, -6), 
-                                                ViewPoint = new Vector3(0, 0, 10),
-                                                Up = new Vector3(0, 16, .75).Normalized,
-                                                Aspect = 2 / 1.0 } };
+                          Camera = camera };
 //scene.AddModel(box);
-scene.AddModel(floor);
+// scene.AddModel(floor);
 //scene.AddModel(sphere);
 scene.AddModel(red_sphere);
 
@@ -40,8 +42,29 @@ red_sphere.Mesh.Translate(new Vector3(3, .5, 2));
 
 box.Mesh.Translate(new Vector3(-1, 0, 4));
 
-var image = new Tracer { Depth = 4,
-                         Scene = scene }.Render();
+var tracer = new Tracer { Depth = 4,
+                          Scene = scene };
 
-image.SaveAsPng("output/image.png");
-image.Dispose();
+var i = tracer.Render();
+i.SaveAsPng("output/i.png");
+i.Dispose();
+
+camera.MoveForward(2);
+var i_left = tracer.Render();
+i_left.SaveAsPng("output/i_mf.png");
+i_left.Dispose();
+
+camera.MoveBackward(2);
+var i2 = tracer.Render();
+i2.SaveAsPng("output/i2.png");
+i2.Dispose();
+
+camera.MoveBackward(4);
+var i_right = tracer.Render();
+i_right.SaveAsPng("output/i_mb.png");
+i_right.Dispose();
+
+camera.MoveForward(4);
+var i3 = tracer.Render();
+i3.SaveAsPng("output/i3.png");
+i3.Dispose();

@@ -49,7 +49,10 @@ public class Tracer
             {
                 var point = points[y, x];
                 Ray ray = Scene.Camera.GetRay(point);
+                // if(x == 284 && y == 161)
+                //     Console.WriteLine($"{x}, {y}");
                 Vector3 color = Trace(ray, 0, 1);
+                // if(y < 50 && x < 90) Console.WriteLine($"{x},{y} {color}");
                 image[x, y] = new Rgb24((byte)Math.Clamp(color.X, 0, 244),
                                         (byte)Math.Clamp(color.Y, 0, 255),
                                         (byte)Math.Clamp(color.Z, 0, 255));

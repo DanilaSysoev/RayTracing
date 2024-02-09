@@ -8,7 +8,7 @@ public class RayTracingStrongShadowsModel : ILightModel
         Material material,
         Scene scene
     ) {
-        point += normal * 0.00001f;
+        point += normal * 0.001f;
         Vector3 lightness = scene.AmbientLight * material.Ambient;
         foreach (var light in scene.Lights)
         {
