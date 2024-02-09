@@ -2,12 +2,25 @@ namespace RayTracing;
 
 public class Camera
 {
-    public Vector3 Position { get; set; } = new Vector3();
-    public Vector3 ViewPoint { get; set; } = new Vector3(0, 0, 1);
-    public Vector3 Up { get; set; } = new Vector3(0, 1, 0);
+    private static readonly Vector3 DefaultUp = new Vector3(0, 1, 0);
+    private static readonly Vector3 DefaultPos = new Vector3(0, 0, -10);
+    private static readonly Vector3 DefaultVp = new Vector3(0, 0, 1);
+    private static readonly double DefaultFoV = 90;
 
-    public double FieldOfView { get; set; } = 90;
+    public Vector3 Position { get; set; } = DefaultPos;
+    public Vector3 ViewPoint { get; set; } = DefaultVp;
+    public Vector3 Up { get; set; } = DefaultUp;
+
+    public double FieldOfView { get; set; } = DefaultFoV;
     public double Aspect { get; set; } = 16.0 / 9.0;
+
+    public void Reset()
+    {
+        Position = DefaultPos;
+        ViewPoint = DefaultVp;
+        Up = DefaultUp;
+        FieldOfView = DefaultFoV;    
+    }
 
     public Screen GetScreen(int width, int height)
     {        
@@ -38,20 +51,38 @@ public class Camera
         return new Ray(Position, point - Position);
     }
 
-    public void MoveUp(double distance) => Position += Up * distance;
-    public void MoveDown(double distance) => Position -= Up * distance;
+    public void MoveUp(double distance)
+    {
+        Position += Up * distance;
+        ViewPoint += Up * distance;
+    }
+    public void MoveDown(double distance)
+    {
+        Position -= Up * distance;
+        ViewPoint -= Up * distance;
+    }
     public void MoveLeft(double distance)
     {
         var right = (ViewPoint - Position).Normalize().Cross(Up);
         Position -= right * distance;
+        ViewPoint -= right * distance;
     }
     public void MoveRight(double distance)
     {
-        var right = (ViewPoint - Position).Normalize().Cross(Up);
+        var right = (ViewPoint - Position).Cross(Up).Normalize();
         Position += right * distance;
+        ViewPoint += right * distance;
     }
-    public void MoveForward(double distance) => Position += (ViewPoint - Position).Normalize() * distance;
-    public void MoveBackward(double distance) => Position -= (ViewPoint - Position).Normalize() * distance;
+    public void MoveForward(double distance)
+    {
+        Position += (ViewPoint - Position).Normalize() * distance;
+        ViewPoint += (ViewPoint - Position).Normalize() * distance;
+    }
+    public void MoveBackward(double distance)
+    {
+        Position -= (ViewPoint - Position).Normalize() * distance;
+        ViewPoint -= (ViewPoint - Position).Normalize() * distance;
+    }
 
     public void RotateLeft(double angle)
     {

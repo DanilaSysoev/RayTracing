@@ -141,7 +141,7 @@ public class Triangle
         var ac_d = cVal - aVal;
                 
         aVal += (ab_d * uv.Item1) + (ac_d * uv.Item2);
-        return aVal.Normalize();
+        return aVal;
     }
     public TextureUV Interpolate(Vector3 point,
                                  TextureUV aVal,

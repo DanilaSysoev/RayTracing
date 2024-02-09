@@ -31,12 +31,10 @@ public class Tracer
     public int Width { get; set; } = 800;
     public int Height { get; set; } = 400;
 
-    private Task[] _tasks;
+    private Task[] _tasks = null!;
 
     public Tracer()
-    {
-        _tasks = new Task[SplittingHeight * SplittingWidth];
-    }
+    {}
 
     private void RenderPartOfScreen(TaskParams taskParams,
                                     Screen screen,
@@ -79,6 +77,7 @@ public class Tracer
                              Image<Rgb24> image,
                              Vector3[,] points)
     {
+        _tasks = new Task[SplittingHeight * SplittingWidth];
         int taskIndex = 0;
         int pixelPerLine = Height / SplittingHeight;
         int pixelPerColumn = Width / SplittingWidth;

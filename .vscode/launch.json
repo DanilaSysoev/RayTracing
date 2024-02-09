@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/RayTracing/bin/Debug/net6.0/RayTracing.dll",
+            "program": "${workspaceFolder}/RayTracingUI/bin/Debug/net6.0/RayTracingUI.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/RayTracing",
+            "cwd": "${workspaceFolder}/RayTracingUI",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

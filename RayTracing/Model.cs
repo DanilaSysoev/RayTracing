@@ -4,6 +4,7 @@ public class Model
 {
     public Mesh Mesh { get; set; }
     public Material Material { get; set; }
+    public string Name { get; set; } = "";
 
     public Model(Mesh mesh, Material material)
     {
@@ -32,4 +33,6 @@ public class Model
 
         return new Model (mesh, material);
     }
+
+    public override string ToString() => Name;
 }
